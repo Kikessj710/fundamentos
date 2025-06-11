@@ -1,0 +1,112 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(150deg, #f90000be, #d9dd8c);
+    height: 100vh;
+}
+#video-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    object-fit: cover;
+}
+.formulario {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1; 
+}
+
+/* título */
+.formulario h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid silver;
+    padding-bottom: 10px;
+}
+
+form .username,
+form .contrasena {
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 30px 0;
+}
+
+.username input,
+.contrasena input {
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+/* campos de entrada */
+.username label,
+.contrasena label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #adadad;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+}
+
+/* Olvidaste tu contraseña */
+.recordar {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #555;
+    text-align: right;
+}
+
+/*  botón de envío */
+input[type="submit"] {
+    width: 100%;
+    height: 40px;
+    border: none;
+    background: #f90000;
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background: #c30000;
+}
+
+
+.registrarse {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.registrarse a {
+    color: #f90000;
+    text-decoration: none;
+}
+
+
+
+
+
+
+
+
