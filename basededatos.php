@@ -1,9 +1,11 @@
 <?php
+
+session_start();    
 // Conexión a la base de datos
-$conexion = new mysqli("localhost", "root", "kikecrak710", "login_proyecto");
+$conexion = new mysqli("localhost", "root", "mamiypapi1", "login_proyecto");
 
 if ($conexion->connect_error) {
-    die("No tiene conexion: " . $conexion->connect_error);
+    die("No tiene conexión: " . $conexion->connect_error);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -12,19 +14,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $clave = $_POST['clave'];
 
     // Consulta preparada para evitar inyecciones SQL
-    $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE usarname=? AND password=?");
-    $stmt->bind_param("ss", $usuario, $clave); 
+    $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE username=?");
+    $stmt->bind_param("s", $usuario);  // Enlazamos el parámetro con la variable
     $stmt->execute(); 
 
-  
     $resultado = $stmt->get_result();
 
-    // Verificar si hay filas coincidentes (usuario y contraseña correctos)
+    // Verificar si el usuario existe
     if ($resultado->num_rows > 0) {
-         header("Location: estacionamientos.php");
-        exit();
-
-    }else{
+        // Recuperar el usuario de la base de datos
+        $usuario_bd = $resultado->fetch_assoc();
+        
+        // Verificar la contraseña usando password_verify
+        if (password_verify($clave, $usuario_bd['password'])) {
+           $_SESSION['usuario_id'] = $usuario_bd['id'];
+         $_SESSION['username'] = $usuario_bd['username'];
+            // Contraseña correcta, redirigir al usuario
+            header("Location: estacionamientos.php");  // Redirige a la página del sistema
+           
+            exit();
+        } else {
+            // Contraseña incorrecta
+            echo "<script>alert('Usuario o contraseña incorrectos.'); window.history.back();</script>";
+        }
+    } else {
+        // Usuario no encontrado
         echo "<script>alert('Usuario o contraseña incorrectos.'); window.history.back();</script>";
     }
 
@@ -33,5 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conexion->close();
 }
 ?>
+
 
 
