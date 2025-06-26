@@ -25,13 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Recuperar el usuario de la base de datos
         $usuario_bd = $resultado->fetch_assoc();
         
-        // Verificar la contraseña usando password_verify
+        // Verificar la contraseña usando password_verify (para contraseñas encriptadas)
         if (password_verify($clave, $usuario_bd['password'])) {
-           $_SESSION['usuario_id'] = $usuario_bd['id'];
-         $_SESSION['username'] = $usuario_bd['username'];
-            // Contraseña correcta, redirigir al usuario
-            header("Location: estacionamientos.php");  // Redirige a la página del sistema
-           
+            // Contraseña correcta, almacenar en la sesión
+            $_SESSION['usuario_id'] = $usuario_bd['id'];
+            $_SESSION['username'] = $usuario_bd['username'];
+            $_SESSION['rol'] = $usuario_bd['rol'];  // Guardar el rol del usuario (usuario o administrador)
+            
+            // Redirigir según el rol del usuario
+            if ($_SESSION['rol'] === 'administrador') {
+                header("Location: admin_dashboard.php");  // Redirigir al panel de administrador
+            } else {
+                header("Location: estacionamientos.php");  // Redirigir al panel de usuario normal
+            }
             exit();
         } else {
             // Contraseña incorrecta
@@ -47,6 +53,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conexion->close();
 }
 ?>
-
-
-
